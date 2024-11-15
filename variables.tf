@@ -27,5 +27,5 @@ variable "instance_type" {
 variable "ami_id" {
   description = "The AMI ID to use for the EC2 instance."
   type        = string
-  default     = "ami-0325498274077fac5"  # Replace with a valid AMI ID
+  default     = "ami-0c55b159cbfafe1f0"  # Replace with a valid AMI ID
 }

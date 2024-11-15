@@ -1,4 +1,6 @@
 name: Deploy EC2 with Terraform and Infracost
+run-name: ${{ github.actor }} has triggered the pipeline
+
 
 on: 
   push:
