@@ -13,11 +13,20 @@ permissions:
   contents: read 
 
 jobs:
+  security:
+    name: Snyk Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Run Snyk to check terraform files for issues
+        uses: snyk/actions/iac@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
   infracost-default-branch-update:
     # If you use private modules, or store Terraform variables or modules in a 3rd party
     # such as TFC or Spacelift, include the same steps/variables as the infracost-pull-request-checks job
-    name: Infracost Default Branch Update
+    name: Infracost Analysis
     if: github.event_name == 'push' && (github.ref_name == 'main' || github.ref_name == 'master')
     runs-on: ubuntu-latest
     steps:
@@ -38,7 +47,7 @@ jobs:
           infracost upload --path=infracost.json || echo "Always pass main branch runs even if there are policy failures"
 
   terraform:
-    name: Terraform EC2 Deployment
+    name: Terraform Deployment
     runs-on: ubuntu-latest
 
     env:
