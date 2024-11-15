@@ -40,6 +40,9 @@ jobs:
       #     curl -s https://api.infracost.io/install.sh | sh
       #     infracost auth login ${{ secrets.INFRACOST_API_KEY }}
 
+      - name: Terraform Init
+        run: terraform init
+
       - name: Terraform Validate
         run: terraform validate
 

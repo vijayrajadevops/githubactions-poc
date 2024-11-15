@@ -1,7 +1,8 @@
-# provider.tf
-
-provider "aws" {
-  region = var.aws_region  # Using a variable for the region
-  profile = "myprofile"
-
+terraform {
+  required_providers {
+    aws = {
+      source = "hashicorp/aws"
+      version = ">= 4.0"
+    }
+  }
 }
