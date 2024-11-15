@@ -31,8 +31,8 @@ jobs:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
-          role-to-assume: ROLE-TO-ASSUME
-          role-session-name: samplerolesession
+          role-to-assume: arn:aws:iam::853973692277:oidc-provider/token.actions.githubusercontent.com
+          role-session-name: vijaygithubsession
           aws-region: ${{ env.AWS_REGION }}
 
       - name: Install Infracost
