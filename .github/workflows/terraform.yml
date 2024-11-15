@@ -1,0 +1,73 @@
+name: Deploy EC2 with Terraform and Infracost
+
+on: 
+  push:
+    branches:
+      - main  # Trigger on push to the main branch
+  workflow_dispatch: 
+
+permissions:
+  id-token: write   # This is required for requesting the JWT
+  contents: read 
+
+jobs:
+  terraform:
+    name: Terraform EC2 Deployment
+    runs-on: ubuntu-latest
+
+    env:
+      AWS_REGION: us-east-1  
+      TF_VAR_environment: dev  
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.5.0
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          role-to-assume: ROLE-TO-ASSUME
+          role-session-name: samplerolesession
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Install Infracost
+        run: |
+          curl -s https://api.infracost.io/install.sh | sh
+          infracost auth login ${{ secrets.INFRACOST_API_KEY }}
+
+      - name: Terraform Validate
+        run: terraform validate
+
+      - name: Terraform Plan
+        id: tf_plan
+        run: |
+          terraform init
+          terraform plan -out=tfplan.binary
+          terraform show -json tfplan.binary > tfplan.json
+
+      - name: Run Infracost for cost estimation
+        run: |
+          infracost breakdown --path=tfplan.json --format=json --out-file=infracost-report.json
+          infracost output --path=infracost-report.json --format=table
+
+      - name: Display Infracost Report
+        run: |
+          cat infracost-report.json
+
+      - name: Terraform Apply Approval
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: softprops/action-gh-release@v1
+        with:
+          approval: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Terraform Apply
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main' && github.actor == 'github-actions'
+        run: |
+          terraform apply -auto-approve tfplan.binary
