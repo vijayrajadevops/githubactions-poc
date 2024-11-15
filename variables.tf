@@ -21,11 +21,11 @@ variable "subnet_cidr_block" {
 variable "instance_type" {
   description = "The EC2 instance type."
   type        = string
-  default     = "t3.micro"
+  default     = "t2.micro"
 }
 
 variable "ami_id" {
   description = "The AMI ID to use for the EC2 instance."
   type        = string
-  default     = "ami-0c55b159cbfafe1f0"  # Replace with a valid AMI ID
+  default     = "ami-012967cc5a8c9f891"  # Replace with a valid AMI ID
 }
