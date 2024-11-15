@@ -35,10 +35,10 @@ jobs:
           role-session-name: vijaygithubsession
           aws-region: ${{ env.AWS_REGION }}
 
-      - name: Install Infracost
-        run: |
-          curl -s https://api.infracost.io/install.sh | sh
-          infracost auth login ${{ secrets.INFRACOST_API_KEY }}
+      # - name: Install Infracost
+      #   run: |
+      #     curl -s https://api.infracost.io/install.sh | sh
+      #     infracost auth login ${{ secrets.INFRACOST_API_KEY }}
 
       - name: Terraform Validate
         run: terraform validate
