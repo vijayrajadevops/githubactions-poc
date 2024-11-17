@@ -5,9 +5,10 @@ run-name: ${{ github.actor }} has triggered the pipeline
 on: 
   push:
     branches:
-      - main  # Trigger on push to the main branch
-  workflow_dispatch: 
-
+      - main 
+  pull_request:
+    branches: 
+      - main
 permissions:
   id-token: write   # This is required for requesting the JWT
   contents: read 
