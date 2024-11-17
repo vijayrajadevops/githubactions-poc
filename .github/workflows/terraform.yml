@@ -20,11 +20,10 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Run Snyk to check terraform files for issues
-        uses: snyk/actions/iac@master
+        run: snyk iac test --severity-threshold=high
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-        with:
-          severity-threshold: high
+
 
   Infracost-Analysis:
     name: Infracost Analysis
