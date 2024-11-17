@@ -19,6 +19,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Install Snyk CLI
+        run: |
+          npm install -g snyk
+
       - name: Run Snyk to check terraform files for issues
         run: snyk iac test --severity-threshold=high
         env:
