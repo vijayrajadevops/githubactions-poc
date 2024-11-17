@@ -14,7 +14,7 @@ permissions:
   contents: read 
 
 jobs:
-  security:
+  Synk-Test:
     name: Snyk Test
     runs-on: ubuntu-latest
     steps:
@@ -24,9 +24,7 @@ jobs:
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
-  infracost-default-branch-update:
-    # If you use private modules, or store Terraform variables or modules in a 3rd party
-    # such as TFC or Spacelift, include the same steps/variables as the infracost-pull-request-checks job
+  infracost-Analysis:
     name: Infracost Analysis
     if: github.event_name == 'push' && (github.ref_name == 'main' || github.ref_name == 'master')
     runs-on: ubuntu-latest
@@ -47,7 +45,7 @@ jobs:
 
           infracost upload --path=infracost.json || echo "Always pass main branch runs even if there are policy failures"
 
-  terraform:
+  terraform-deployment:
     name: Terraform Deployment
     runs-on: ubuntu-latest
 
@@ -71,11 +69,6 @@ jobs:
           role-session-name: vijaygithubsession
           aws-region: ${{ env.AWS_REGION }}
 
-      # - name: Install Infracost
-      #   run: |
-      #     curl -s https://api.infracost.io/install.sh | sh
-      #     infracost auth login ${{ secrets.INFRACOST_API_KEY }}
-
       - name: Terraform Init
         run: terraform init
 
@@ -88,23 +81,6 @@ jobs:
           terraform init
           terraform plan -out=tfplan.binary
           terraform show -json tfplan.binary > tfplan.json
-
-      # - name: Run Infracost for cost estimation
-      #   run: |
-      #     infracost breakdown --path=tfplan.json --format=json --out-file=infracost-report.json
-      #     infracost output --path=infracost-report.json --format=table
-
-      # - name: Display Infracost Report
-      #   run: |
-      #     cat infracost-report.json
-
-      # - name: Terraform Apply Approval
-      #   if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-      #   uses: softprops/action-gh-release@v1
-      #   with:
-      #     approval: true
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Terraform Apply
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
