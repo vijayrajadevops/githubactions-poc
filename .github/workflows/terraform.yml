@@ -31,7 +31,6 @@ jobs:
 
   Infracost-Analysis:
     name: Infracost Analysis
-    if: github.event_name == 'push' && (github.ref_name == 'main' || github.ref_name == 'master')
     runs-on: ubuntu-latest
     steps:
       - name: Setup Infracost
@@ -56,8 +55,7 @@ jobs:
     needs: 
       - Snyk-Test 
       - Infracost-Analysis 
-    if: ${{ success() }} && github.event_name == 'push' && (github.ref_name == 'main' || github.ref_name == 'master')
-
+    if: ${{ success() && github.event_name == 'push' && github.ref_name == 'main' }}
     env:
       AWS_REGION: us-east-1  
       TF_VAR_environment: dev  
