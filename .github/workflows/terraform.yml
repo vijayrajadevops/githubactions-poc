@@ -48,6 +48,10 @@ jobs:
   terraform-deployment:
     name: Terraform Deployment
     runs-on: ubuntu-latest
+    needs: 
+      - Snyk-Test 
+      - Infracost-Analysis 
+    if: ${{ success() }}
 
     env:
       AWS_REGION: us-east-1  
