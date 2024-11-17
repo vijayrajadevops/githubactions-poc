@@ -31,7 +31,6 @@ jobs:
 
   Infracost-Analysis:
     name: Infracost Analysis
-    if: github.event_name == 'push' && (github.ref_name == 'main' || github.ref_name == 'master')
     runs-on: ubuntu-latest
     steps:
       - name: Setup Infracost
