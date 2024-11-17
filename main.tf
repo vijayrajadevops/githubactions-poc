@@ -21,7 +21,7 @@ resource "aws_subnet" "ModMed" {
   }
 }
 
-# Internet Gateway
+# Internet Gateway 
 resource "aws_internet_gateway" "ModMed" {
   vpc_id = aws_vpc.ModMed.id
   tags = {
