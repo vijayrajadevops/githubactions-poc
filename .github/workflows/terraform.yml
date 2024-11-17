@@ -14,7 +14,7 @@ permissions:
   contents: read 
 
 jobs:
-  Synk-Test:
+  Snyk-Test:
     name: Snyk Test
     runs-on: ubuntu-latest
     steps:
@@ -24,7 +24,7 @@ jobs:
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
-  infracost-Analysis:
+  Infracost-Analysis:
     name: Infracost Analysis
     if: github.event_name == 'push' && (github.ref_name == 'main' || github.ref_name == 'master')
     runs-on: ubuntu-latest
