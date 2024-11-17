@@ -56,7 +56,7 @@ jobs:
     needs: 
       - Snyk-Test 
       - Infracost-Analysis 
-    if: ${{ success() }}
+    if: ${{ success() && github.event_name == 'push' && github.ref_name == 'main' }}
 
     env:
       AWS_REGION: us-east-1  
