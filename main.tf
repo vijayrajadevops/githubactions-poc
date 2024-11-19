@@ -95,3 +95,8 @@ resource "aws_instance" "ModMed" {
     Name = "ModMed-ec2-instance"
   }
 }
+
+module "eks"{
+
+source = "./modules/eks"
+}
