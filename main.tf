@@ -99,4 +99,6 @@ resource "aws_instance" "ModMed" {
 module "eks"{
 
 source = "./modules/eks"
+  subnet_ids = [aws_subnet.ModMed,aws_subnet.ModMed2]  # List of subnet IDs
+
 }

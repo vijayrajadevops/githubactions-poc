@@ -3,7 +3,7 @@ resource "aws_eks_cluster" "ModMed" {
   role_arn = aws_iam_role.ModMed.arn
 
   vpc_config {
-    subnet_ids = [aws_subnet.ModMed.id, aws_subnet.ModMed2.id]
+    subnet_ids = var.subnet_ids  
   }
 
   # Ensure that IAM Role permissions are created before and deleted after EKS Cluster handling.
