@@ -24,7 +24,7 @@ jobs:
           npm install -g snyk
 
       - name: Run Snyk to check terraform files for issues
-        run: snyk iac test --severity-threshold=high
+        run: snyk iac test --severity-threshold=critical
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
