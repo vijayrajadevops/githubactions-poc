@@ -73,7 +73,7 @@ resource "aws_eks_node_group" "ModMed" {
   }
 }
 
-resource "aws_iam_role" "ModMed_node_group_rule" {
+resource "aws_iam_role" "ModMed_node_group_role" {
   name = "eks-node-group-ModMed"
 
   assume_role_policy = jsonencode({
@@ -90,15 +90,15 @@ resource "aws_iam_role" "ModMed_node_group_rule" {
 
 resource "aws_iam_role_policy_attachment" "ModMed-AmazonEKSWorkerNodePolicy" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy"
-  role       = aws_iam_role.ModMed.name
+  role       = aws_iam_role.ModMed_node_group_role.name
 }
 
 resource "aws_iam_role_policy_attachment" "ModMed-AmazonEKS_CNI_Policy" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy"
-  role       = aws_iam_role.ModMed.name
+  role       = aws_iam_role.ModMed_node_group_role.name
 }
 
 resource "aws_iam_role_policy_attachment" "ModMed-AmazonEC2ContainerRegistryReadOnly" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
-  role       = aws_iam_role.ModMed.name
+  role       = aws_iam_role.ModMed_node_group_role.name
 }
