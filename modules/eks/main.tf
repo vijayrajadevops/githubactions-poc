@@ -73,7 +73,7 @@ resource "aws_eks_node_group" "ModMed" {
   }
 }
 
-resource "aws_iam_role" "ModMed" {
+resource "aws_iam_role" "ModMed_node_group_rule" {
   name = "eks-node-group-ModMed"
 
   assume_role_policy = jsonencode({
