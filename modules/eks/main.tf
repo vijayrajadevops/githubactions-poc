@@ -47,7 +47,7 @@ resource "aws_iam_role_policy_attachment" "ModMed-AmazonEKSVPCResourceController
 resource "aws_eks_node_group" "ModMed" {
   cluster_name    = aws_eks_cluster.ModMed.name
   node_group_name = "Node_group_ModMed"
-  node_role_arn   = aws_iam_role.ModMed.arn
+  node_role_arn   = aws_iam_role.ModMed_node_group_role.arn
   subnet_ids      = var.subnet_ids
 
   scaling_config {
