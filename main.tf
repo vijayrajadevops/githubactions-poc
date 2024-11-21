@@ -96,9 +96,9 @@ resource "aws_instance" "ModMed" {
   }
 }
 
-module "eks"{
+# module "eks"{
 
-source = "./modules/eks"
-  subnet_ids = [aws_subnet.ModMed.id,aws_subnet.ModMed2.id]  # List of subnet IDs
+# source = "./modules/eks"
+#   subnet_ids = [aws_subnet.ModMed.id,aws_subnet.ModMed2.id]  # List of subnet IDs
 
-}
+# }
